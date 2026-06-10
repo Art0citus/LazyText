@@ -57,14 +57,14 @@ export const login = async (req, res) => {
       const user = await User.findOne({email});
 
       if (!user){
-         res.status(400).json({message: "Invalid credentials"});
+        return res.status(400).json({message: "Invalid credentials"});
       }
 
    const isPasswordCorrect = await bcrypt.compare(password, user.password);
    if (!isPasswordCorrect) {
-      res.status(400).json({message: "Invalid credentials"});
+     return res.status(400).json({message: "Invalid credentials"});
    }
-   if (new user) {
+   if ( user ) {
       generateToken(user._id, res);
       await user.save();
       res.status(200).json({
@@ -112,7 +112,7 @@ res.status(200).json(updatedUser);
 
 export const checkAuth = (req, res) => {
    try {
-      req.status(200).json(req.user);  
+      res.status(200).json(req.user);  
    } catch (error) {
       console.log("Error in check Auth", error);   
       res.status(500).json({message: "Internal Server error"});

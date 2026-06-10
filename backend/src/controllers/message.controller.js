@@ -1,17 +1,26 @@
 import User from "../models/user.model.js";
 import Message from "../models/message.model.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const getUsersForSidebar = async (req, res) => {
     try {
         const loggedInUserId = req.user._id;
-        const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
+
+        console.log("Logged In User ID:", loggedInUserId);
+
+        const filteredUsers = await User.find({
+            _id: { $ne: loggedInUserId }
+        }).select("-password");
+
+        console.log("Filtered Users:", filteredUsers);
+
+        res.status(200).json(filteredUsers);
+
     } catch (error) {
         console.error("Error fetching users for sidebar:", error.message);
         res.status(500).json({ error: "Server error" });
     }
-
 };
-
 export const getMessages = async (req, res) => {
     try {
         const { id: UserToChatId } = req.params;
@@ -34,6 +43,11 @@ export const sendMessage = async (req, res) => {
         const { id: receiverId } = req.params;
         const senderId = req.user._id;
         const { text, image } = req.body;
+        if (!text && !image) {
+    return res.status(400).json({
+        message: "Message content is required"
+    });
+}
         
         let imageUrl;
         if (image) {
