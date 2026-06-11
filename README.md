@@ -17,14 +17,10 @@ LazyText enables users to authenticate securely, discover other users, and excha
 <h3>Create Account</h3>
 
 <img src="screenshots/signup.png" width="250"/>
-
+<br>
 <h3>Users List</h3>
 
 <img src="screenshots/users.png" width="250"/>
-
-<h3>Chat Interface</h3>
-
-<img src="screenshots/chat.png" width="250"/>
 
 <h3>Real-Time Messaging</h3>
 
