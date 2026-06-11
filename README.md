@@ -1,4 +1,4 @@
-# Real-Time Chat App
+# LazyText
 
 A production-ready, extensible real-time chat application built with Node.js (Express + Socket.IO) for the backend and React for the frontend. This README includes setup, development, deployment, architecture, and API/socket conventions tailored to this tech stack.
 

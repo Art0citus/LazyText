@@ -4,6 +4,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import e from "express";
 export const signup = async (req, res) => {
+   console.log("REQ BODY:", req.body);
    const {email,fullname,password} = req.body;
    try {
    if (!email || !fullname || !password) {   
@@ -28,15 +29,17 @@ export const signup = async (req, res) => {
 
          if(newUser) {
             // generate jwt token here
-            generateToken(newUser._id, res )
-            await newUser.save();
+  await newUser.save();
 
-            res.status(201).json({
-                  _id: newUser._id,
-                  fullname: newUser.fullname,
-                  email: newUser.email,
-                  profilePic: newUser.profilePic,
-            });
+   const token = generateToken(newUser._id);
+
+   res.status(201).json({
+      token,
+      _id: newUser._id,
+      fullname: newUser.fullname,
+      email: newUser.email,
+      profilePic: newUser.profilePic,
+   });
 
          } else {
             res.status(400).json({message: "Invalid user data"});
@@ -52,27 +55,29 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+   console.log("LOGIN BODY:", req.body);
    const {email, password} = req.body;
    try {
       const user = await User.findOne({email});
 
       if (!user){
-        return res.status(400).json({message: "Invalid credentials"});
+      return res.status(400).json({message: "Invalid credentials"});
       }
 
    const isPasswordCorrect = await bcrypt.compare(password, user.password);
    if (!isPasswordCorrect) {
-     return res.status(400).json({message: "Invalid credentials"});
+   return res.status(400).json({message: "Invalid credentials"});
    }
    if ( user ) {
-      generateToken(user._id, res);
-      await user.save();
-      res.status(200).json({
-         _id: user._id, 
-         fullname: user.fullname,
-         email: user.email,
-         profilePic: user.profilePic,
-      });
+      const token = generateToken(user._id);
+
+res.status(200).json({
+   token,
+   _id: user._id,
+   fullname: user.fullname,
+   email: user.email,
+   profilePic: user.profilePic,
+});
    } else {
       res.status(400).json({message: "Invalid user data"}); 
    }
