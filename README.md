@@ -1,329 +1,333 @@
-# LazyText
+# 🚀 LazyText
 
-A production-ready, extensible real-time chat application built with Node.js (Express + Socket.IO) for the backend and React for the frontend. This README includes setup, development, deployment, architecture, and API/socket conventions tailored to this tech stack.
+A modern real-time messaging application built with **Flutter**, **Node.js**, **Express**, **MongoDB**, and **Socket.IO**.
 
-## Features
+LazyText enables users to authenticate securely, discover other users, and exchange messages instantly through WebSocket-powered communication.
 
-- Real-time one-to-one and group messaging
-- Persistent message history (pagination)
-- Read receipts and delivery acknowledgements
-- Typing indicators and presence (online/offline)
-- File and image attachments
-- Authentication with JWT
-- Scalable Socket.IO using Redis adapter (for multi-instance)
-- Basic message reactions, editing and deleting (configurable)
+---
 
+## 📱 Screenshots
 
-## Tech Stack
+### Welcome Screen
 
-- Backend: Node.js, Express, Socket.IO
-- Frontend: React (Vite or Create React App)
-- Database: PostgreSQL (or MongoDB alternative)
-- Cache / PubSub: Redis (Socket.IO adapter + presence)
-- File Storage: AWS S3 (recommended) or local uploads for development
+![Welcome Screen](screenshots/welcome.png)
 
+### Create Account
 
-## Demo
+![Signup Screen](screenshots/signup.png)
 
-Add a live demo URL or screenshots here:
+### Users List
 
-- Live demo: https://example.com
-- Screenshots: put images in `docs/` or `public/` and reference them here
+![Users List](screenshots/users.png)
 
+### Chat Interface
 
-## Architecture
+![Chat Screen](screenshots/chat.png)
 
-High level:
+### Real-Time Messaging
 
-1. Client authenticates using REST and stores JWT
-2. Client opens Socket.IO connection to the server with the JWT
-3. Server validates JWT and joins the user to personal and room namespaces/rooms
-4. Messages sent via Socket.IO are persisted to the database and broadcast to room members
-5. Redis adapter ensures events are propagated across server instances in production
+![Real-Time Messaging](screenshots/realtime_chat.png)
 
+---
 
-## Prerequisites
+## ✨ Features
 
-- Node.js 18+
-- npm (or yarn)
-- PostgreSQL (or MongoDB)
-- Redis (for production scaling / presence)
-- AWS account for S3 (optional for file storage)
+### 🔐 Authentication
 
+* User Registration
+* User Login
+* JWT Authentication
+* Protected API Routes
+* Password Hashing using BCrypt
 
-## Environment variables
+### 💬 Real-Time Messaging
 
-Create a `.env` file in the `server` directory (example):
+* One-to-One Chat
+* Socket.IO Integration
+* Instant Message Delivery
+* Persistent Chat History
+* Real-Time Synchronization
 
+### 👥 User Management
+
+* Browse Registered Users
+* User Discovery Screen
+* Secure User Sessions
+
+### 🎨 Modern UI
+
+* Dark Theme Design
+* Responsive Layout
+* Reusable Flutter Widgets
+* Modern Chat Bubbles
+* Smooth Navigation
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+
+* Flutter
+* Dart
+* Dio
+* Shared Preferences
+* Socket.IO Client
+
+### Backend
+
+* Node.js
+* Express.js
+* Socket.IO
+* JWT Authentication
+* BCryptJS
+
+### Database
+
+* MongoDB
+* Mongoose
+
+### Cloud Services
+
+* Cloudinary
+
+---
+
+## 🏗️ Architecture
+
+```text
+Flutter App
+     │
+     ▼
+ REST API (Dio)
+     │
+     ▼
+Express Backend
+     │
+     ▼
+MongoDB
+
+Flutter App
+     │
+     ▼
+Socket.IO Client
+     │
+     ▼
+Socket.IO Server
+     │
+     ▼
+Real-Time Communication
 ```
-# Server
-PORT=4000
-NODE_ENV=development
 
-# Auth
-JWT_SECRET=supersecret_jwt_key
-JWT_EXPIRY=7d
+---
 
-# Database (Postgres example)
-DATABASE_URL=postgres://user:password@localhost:5432/chatdb
+## 📂 Project Structure
 
-# Redis
-REDIS_URL=redis://localhost:6379
-
-# S3 (optional)
-S3_BUCKET_NAME=your-bucket
-S3_REGION=us-east-1
-S3_ACCESS_KEY_ID=AKIA...
-S3_SECRET_ACCESS_KEY=...
-
-# Optional
-FRONTEND_ORIGIN=http://localhost:3000
+```text
+lib/
+│
+├── common/
+│   └── color_extension.dart
+│
+├── models/
+│   └── user_model.dart
+│
+├── screens/
+│   ├── auth/
+│   ├── chat/
+│   └── home/
+│
+├── services/
+│   ├── api_service.dart
+│   └── socket_service.dart
+│
+├── widgets/
+│   ├── custom_button.dart
+│   ├── message_bubble.dart
+│   ├── message_input.dart
+│   ├── round_textfield.dart
+│   └── user_tile.dart
+│
+└── main.dart
 ```
 
-Adjust variable names if your code uses different ones.
+---
 
+## 🔐 Authentication Flow
 
-## Running locally (development)
+```text
+User Signup/Login
+        │
+        ▼
+Backend Validation
+        │
+        ▼
+JWT Generation
+        │
+        ▼
+SharedPreferences
+        │
+        ▼
+Protected API Access
+```
 
-This repo assumes a two-folder structure at the repository root:
+---
 
-- `server/` — Node.js + Express + Socket.IO backend
-- `client/` — React frontend
+## ⚡ Real-Time Messaging Flow
 
-### Backend (server)
+```text
+User A Sends Message
+         │
+         ▼
+Socket.IO Server
+         │
+         ▼
+MongoDB Storage
+         │
+         ▼
+Receiver Socket
+         │
+         ▼
+User B Receives Instantly
+```
+
+---
+
+## 📡 REST API Endpoints
+
+### Authentication
+
+```http
+POST /api/auth/signup
+POST /api/auth/login
+POST /api/auth/logout
+GET  /api/auth/check
+```
+
+### Messaging
+
+```http
+GET  /api/message/users
+GET  /api/message/:userId
+POST /api/message/send/:receiverId
+```
+
+---
+
+## 🔌 Socket Events
+
+### Client → Server
+
+```text
+connection
+disconnect
+```
+
+### Server → Client
+
+```text
+newMessage
+onlineUsers
+```
+
+---
+
+## ⚙️ Environment Variables
+
+Create a `.env` file inside the backend folder:
+
+```env
+PORT=5001
+
+MONGODB_URI=your_mongodb_uri
+
+JWT_SECRET=your_secret_key
+
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+
+CLOUDINARY_API_KEY=your_api_key
+
+CLOUDINARY_API_SECRET=your_api_secret
+```
+
+---
+
+## 🚀 Installation
+
+### Backend Setup
 
 ```bash
-cd server
+git clone https://github.com/yourusername/lazytext.git
+
+cd backend
+
 npm install
 
-# run migrations / setup DB if you have them
-npm run db:migrate # optional
-
-# start dev server (with nodemon)
 npm run dev
 ```
 
-Typical scripts in `server/package.json`:
-
-```json
-{
-  "scripts": {
-    "dev": "nodemon --watch src --exec ts-node src/index.ts",
-    "start": "node dist/index.js",
-    "build": "tsc",
-    "db:migrate": "your-migration-command-here"
-  }
-}
-```
-
-Server will listen on `http://localhost:4000` (or the PORT you set).
-
-
-### Frontend (client)
+### Flutter Setup
 
 ```bash
-cd client
-npm install
-npm run dev
-# or
-npm start
+cd lazy_text
+
+flutter pub get
+
+flutter run
 ```
 
-Typical scripts in `client/package.json` (Vite):
+---
 
-```json
-{
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  }
-}
-```
+## 🎯 Key Learning Outcomes
 
-Open `http://localhost:3000` by default.
+This project helped me gain hands-on experience with:
 
+* Flutter Application Development
+* REST API Integration
+* JWT Authentication
+* MongoDB Data Modeling
+* Socket.IO Real-Time Communication
+* Backend Development with Express.js
+* Secure Authentication Flows
+* Full-Stack Application Architecture
 
-## Running with Docker
+---
 
-Example `docker-compose.yml` (root):
+## 🔮 Future Improvements
 
-```yaml
-version: "3.8"
-services:
-  server:
-    build: ./server
-    env_file:
-      - ./server/.env
-    ports:
-      - "4000:4000"
-    depends_on:
-      - db
-      - redis
+* Online / Offline Presence
+* Typing Indicators
+* Read Receipts
+* Image Messaging
+* Push Notifications
+* Group Chats
+* Voice Messages
+* Message Search
+* End-to-End Encryption
 
-  client:
-    build: ./client
-    ports:
-      - "3000:3000"
+---
 
-  db:
-    image: postgres:15
-    environment:
-      POSTGRES_USER: chat
-      POSTGRES_PASSWORD: chat
-      POSTGRES_DB: chatdb
-    volumes:
-      - db-data:/var/lib/postgresql/data
+## 📈 Resume Highlights
 
-  redis:
-    image: redis:7
-    ports:
-      - "6379:6379"
+This project demonstrates:
 
-volumes:
-  db-data:
-```
+✅ Full-Stack Development
 
-Start:
+✅ Mobile App Development
 
-```bash
-docker compose up --build
-```
+✅ REST API Design
 
+✅ Authentication & Authorization
 
-## Socket.IO events (server <-> client)
+✅ MongoDB Database Design
 
-These are recommended event names and payloads. Match them to your implementation.
+✅ WebSocket Communication
 
-- Connection / Auth
-  - Client -> Server: `authenticate` { token }
-  - Server -> Client: `authenticated` | `auth_error` { message }
+✅ Real-Time Systems
 
-- Rooms & Presence
-  - Client -> Server: `join_room` { roomId }
-  - Client -> Server: `leave_room` { roomId }
-  - Server -> Room: `presence_update` { userId, status }
+✅ Production-Oriented Architecture
 
-- Messaging
-  - Client -> Server: `send_message` { roomId, content, attachments?, tempId? }
-  - Server -> Room: `message` { id, roomId, senderId, content, attachments, createdAt }
-  - Server -> Sender: `message_ack` { tempId, id }
-  - Client -> Server: `message_read` { messageId, roomId }
-  - Server -> Room: `message_read` { messageId, readerId, readAt }
+---
+### Project Title for Resume
 
-- Typing
-  - Client -> Server: `typing` { roomId }
-  - Client -> Server: `stop_typing` { roomId }
-  - Server -> Room: `user_typing` { userId, roomId }
-
-- Delivery, Reactions, Edit/Delete
-  - Server -> Room: `message_delivered` { messageId, deliveredTo: [userIds] }
-  - Client -> Server: `react_message` { messageId, reaction }
-  - Server -> Room: `message_reaction` { messageId, reaction, userId }
-  - Client -> Server: `edit_message` { messageId, newContent }
-  - Client -> Server: `delete_message` { messageId }
-
-Security notes:
-- Attach JWT to the Socket.IO handshake (token in query or auth field) and validate server-side.
-- Rate-limit `send_message` and attachment uploads.
-
-
-## REST API endpoints (example)
-
-These endpoints complement sockets for non-real-time actions (auth, uploads, history):
-
-- POST /api/auth/register — register new user
-- POST /api/auth/login — login (returns JWT)
-- GET /api/users/me — current user profile
-- GET /api/rooms — list rooms the user is part of
-- POST /api/rooms — create a new room (group)
-- GET /api/rooms/:roomId/messages?limit=&before= — get message history (pagination)
-- POST /api/messages/upload — upload attachment (returns URL)
-- POST /api/messages/:id/read — mark message as read (optional, can use sockets)
-
-All endpoints that require a user must validate the JWT.
-
-
-## Database schemas (examples)
-
-Postgres (simplified):
-
-messages
-- id UUID PK
-- room_id UUID FK
-- sender_id UUID FK
-- content TEXT
-- attachments JSONB (array of {url, filename, mime})
-- created_at TIMESTAMP
-- updated_at TIMESTAMP
-- edited_at TIMESTAMP NULLABLE
-
-rooms
-- id UUID PK
-- name TEXT
-- is_private BOOLEAN
-- created_at TIMESTAMP
-
-room_members
-- room_id UUID FK
-- user_id UUID FK
-- role TEXT (owner/admin/member)
-- joined_at TIMESTAMP
-
-users
-- id UUID PK
-- username TEXT UNIQUE
-- email TEXT UNIQUE
-- password_hash TEXT
-- avatar_url TEXT
-- last_seen TIMESTAMP
-
-Index messages on (room_id, created_at) for efficient pagination.
-
-
-## File uploads & storage
-
-- For production: store files in S3 and keep metadata in DB.
-- For development: store files locally under `/server/uploads` and serve them statically.
-- Protect access to private attachments by signing URLs or checking auth on download endpoints.
-
-
-## Testing
-
-- Backend unit tests: Jest / Vitest
-- Integration tests: Supertest (for REST) + test Socket.IO client (socket.io-client)
-- Frontend E2E: Playwright or Cypress
-
-Example:
-
-```bash
-# run server tests
-cd server
-npm run test
-
-# run client tests
-cd client
-npm run test
-```
-
-
-## Deployment
-
-- Backend: containerize and deploy to any cloud (AWS ECS/EKS, DigitalOcean App Platform, Render, Heroku)
-- Frontend: Vercel / Netlify / static hosting
-- Use Redis (managed) and Postgres (managed) in production
-- Use environment variables for secrets, enable HTTPS, and rotate keys
-
-Scaling tips:
-- Use a Redis adapter for Socket.IO to broadcast across instances
-- Store session or recent presence in Redis
-- Use horizontal auto-scaling behind a load balancer with sticky sessions or socket affinity if not using Redis adapter
-
-
-## Extending the app
-
-Ideas and common tasks:
-- Add message search (Postgres full-text / Elasticsearch)
-- Add end-to-end encryption (client-side encryption)
-- Add read receipts per-user per-message
-- Add message reactions and threaded replies
+**LazyText – Real-Time Chat Application (Flutter, Node.js, MongoDB, Socket.IO)**
