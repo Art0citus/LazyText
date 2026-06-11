@@ -7,26 +7,29 @@ LazyText enables users to authenticate securely, discover other users, and excha
 ---
 
 ## 📱 Screenshots
-<div align= center>
-### Welcome Screen
 
-![Welcome Screen](screenshots/welcome.png)
+<div align="center">
 
-### Create Account
+<h3>Welcome Screen</h3>
 
-![Signup Screen](screenshots/signup.png)
+<img src="screenshots/welcome.png" width="250"/>
 
-### Users List
+<h3>Create Account</h3>
 
-![Users List](screenshots/users.png)
+<img src="screenshots/signup.png" width="250"/>
 
-### Chat Interface
+<h3>Users List</h3>
 
-![Chat Screen](screenshots/chat.png)
+<img src="screenshots/users.png" width="250"/>
 
-### Real-Time Messaging
+<h3>Chat Interface</h3>
 
-![Real-Time Messaging](screenshots/realtime_chat.png)
+<img src="screenshots/chat.png" width="250"/>
+
+<h3>Real-Time Messaging</h3>
+
+<img src="screenshots/realtime_chat.png" width="250"/>
+
 </div>
 ---
 
