@@ -7,7 +7,7 @@ LazyText enables users to authenticate securely, discover other users, and excha
 ---
 
 ## 📱 Screenshots
-
+<div align= center>
 ### Welcome Screen
 
 ![Welcome Screen](screenshots/welcome.png)
@@ -27,7 +27,7 @@ LazyText enables users to authenticate securely, discover other users, and excha
 ### Real-Time Messaging
 
 ![Real-Time Messaging](screenshots/realtime_chat.png)
-
+</div>
 ---
 
 ## ✨ Features
